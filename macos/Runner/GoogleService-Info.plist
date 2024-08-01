@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDRWr-k5nfkCtadL5VtEK2iVUbaFo8SEU0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>339984881057</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.jungjoo.gava.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>gava-a0d3a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gava-a0d3a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:339984881057:ios:312067b38d587c1dea27e0</string>
+</dict>
+</plist>

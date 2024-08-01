@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "339984881057",
+    "project_id": "gava-a0d3a",
+    "storage_bucket": "gava-a0d3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339984881057:android:da2673b0fe43b674ea27e0",
+        "android_client_info": {
+          "package_name": "com.jungjoo.gava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvxcCKiuV1AinevIuC3tvXv2TfcvILtIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
