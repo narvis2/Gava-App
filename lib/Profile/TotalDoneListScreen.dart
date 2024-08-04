@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
-
 class TotalDoneListScreen extends StatefulWidget {
   @override
   _TotalDoneListScreenState createState() => _TotalDoneListScreenState();
@@ -45,7 +44,8 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     Map<String, List<DoList>> groupedDoLists = {};
 
     for (var doList in doneDoLists) {
-      String monthYear = DateFormat('yy년 MM월').format(DateTime.parse(doList.startDate));
+      String monthYear =
+          DateFormat('yy년 MM월').format(DateTime.parse(doList.startDate));
       if (!groupedDoLists.containsKey(monthYear)) {
         groupedDoLists[monthYear] = [];
       }
@@ -60,7 +60,8 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     if (searchText.isEmpty) {
       return [];
     } else {
-      return await FirebaseDBHelper().searchDoListByTitleAndDoneState(searchText);
+      return await FirebaseDBHelper()
+          .searchDoListByTitleAndDoneState(searchText);
     }
   }
 
@@ -92,7 +93,9 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
                   isOverlayShown = false;
                   _loadData();
                 }),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 _buildActionButton(Icons.delete, '삭제', () async {
                   await FirebaseDBHelper().deleteDoList(doList.id);
                   _overlayEntry?.remove();
@@ -111,25 +114,24 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     isOverlayShown = true;
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         if (isOverlayShown) {
           _overlayEntry?.remove();
           isOverlayShown = false;
         }
-        },
+      },
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text('완료한 계획', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),),
+          title: Text(
+            '완료한 계획',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
+          ),
           centerTitle: true,
         ),
         body: Padding(
@@ -140,21 +142,26 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
               Container(
                 decoration: BoxDecoration(
                     color: SECONDARY_COLOR,
-                    borderRadius: BorderRadius.circular(23)
-                ),
+                    borderRadius: BorderRadius.circular(23)),
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.search_rounded,color: Colors.white,),
+                    icon: Icon(
+                      Icons.search_rounded,
+                      color: Colors.white,
+                    ),
                     hintText: '날짜 또는 프로젝트 제목을 입력하세요.',
-                    hintStyle: TextStyle(color: TONED_DOWN_TEXTCOLOR, fontWeight: FontWeight.normal),
+                    hintStyle: TextStyle(
+                        color: TONED_DOWN_TEXTCOLOR,
+                        fontWeight: FontWeight.normal),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w600),
                 ),
               ),
               SizedBox(height: 30),
@@ -164,23 +171,32 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
                   builder: (context, value, child) {
                     bool isSearchEmpty = _searchController.text.isEmpty;
                     return FutureBuilder<dynamic>(
-                      future: isSearchEmpty ? fetchGroupedDoneDoLists() : searchDoList(),
+                      future: isSearchEmpty
+                          ? fetchGroupedDoneDoLists()
+                          : searchDoList(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return Center(child: Text('검색 결과가 없습니다', style: TextStyle(color: Colors.white70, fontSize: 16)));
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(
+                              child: Text('검색 결과가 없습니다',
+                                  style: TextStyle(
+                                      color: Colors.white70, fontSize: 16)));
                         } else {
-                          return isSearchEmpty ? _buildGroupedDoList(snapshot.data) : _buildSearchResults(snapshot.data);
+                          return isSearchEmpty
+                              ? _buildGroupedDoList(snapshot.data)
+                              : _buildSearchResults(snapshot.data);
                         }
                       },
                     );
                   },
                 ),
               ),
-
               SizedBox(height: 20),
             ],
           ),
@@ -194,22 +210,25 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     groupedDoLists.forEach((monthYear, doLists) {
       children.add(
         Padding(
-          padding: EdgeInsets.only(right: 23, top: 30,bottom: 10),
+          padding: EdgeInsets.only(right: 23, top: 30, bottom: 10),
           child: Text(
             monthYear,
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
       );
       children.add(
         GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics:
+              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // number of cells in each row
             crossAxisSpacing: 10, // spacing between the cells horizontally
             mainAxisSpacing: 10, // spacing between the cells vertically
-            childAspectRatio: (MediaQuery.of(context).size.width / 2 - 10 - 10) / 98,
+            childAspectRatio:
+                (MediaQuery.of(context).size.width / 2 - 10 - 10) / 98,
           ),
           itemCount: doLists.length,
           itemBuilder: (context, index) {
@@ -220,7 +239,6 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     });
     return ListView(children: children);
   }
-
 
   Widget buildGridItem(DoList doList, int index) {
     var key = GlobalKey(debugLabel: 'DoListKey_$index');
@@ -256,14 +274,19 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                DateFormat('yy년 MM월 dd일').format(DateTime.parse(doList.startDate)),
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                DateFormat('yy년 MM월 dd일')
+                    .format(DateTime.parse(doList.startDate)),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 10),
               Text(
                 doList.title,
-                style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 14),
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.5), fontSize: 14),
               ),
             ],
           ),
@@ -272,9 +295,8 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     );
   }
 
-
-
-  Widget _buildActionButton(IconData icon, String label, VoidCallback onPressed) {
+  Widget _buildActionButton(
+      IconData icon, String label, VoidCallback onPressed) {
     return Container(
       height: 50,
       width: 100,
@@ -283,7 +305,7 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
         label: Text(label, style: TextStyle(color: Colors.white, fontSize: 15)),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: PRIMARY_COLOR,
+          backgroundColor: PRIMARY_COLOR,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -292,20 +314,20 @@ class _TotalDoneListScreenState extends State<TotalDoneListScreen> {
     );
   }
 
-
   Widget _buildSearchResults(List<DoList> searchResults) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: (MediaQuery.of(context).size.width / 2 - 10 - 10) / 98,
+        childAspectRatio:
+            (MediaQuery.of(context).size.width / 2 - 10 - 10) / 98,
       ),
       itemCount: searchResults.length,
       itemBuilder: (context, index) {
-        return buildGridItem(searchResults[index], index); // Use searchResults here
+        return buildGridItem(
+            searchResults[index], index); // Use searchResults here
       },
     );
   }
-
 }

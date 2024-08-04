@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,12 +48,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFF507AE9)),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        backgroundColor: Color(0xFF000000), // This sets the background color of the app
-        fontFamily: 'Pretendard'
-    ),
-
+          primarySwatch: createMaterialColor(Color(0xFF507AE9)),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor:
+              Color(0xFF000000), // This sets the background color of the app
+          fontFamily: 'Pretendard'),
       home: savedEmail != null && savedPassword != null
           ? TabbarScreen(email: savedEmail!, password: savedPassword!)
           : LoginScreen(),
@@ -82,6 +80,4 @@ class MyApp extends StatelessWidget {
     }
     return MaterialColor(color.value, swatch);
   }
-
 }
-

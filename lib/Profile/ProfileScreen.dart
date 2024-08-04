@@ -13,7 +13,6 @@ import 'dart:ui';
 import 'package:gava/Profile/SettingsScreen.dart';
 import 'package:gava/DoList/CreateDoListScreen.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -55,7 +54,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-
   void _showOverlay(BuildContext context, Offset offset, DoList doList) {
     print('Showing overlay for: ${doList.title}');
 
@@ -84,7 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   isOverlayShown = false;
                   _loadData();
                 }),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 _buildActionButton(Icons.delete, '삭제', () async {
                   await FirebaseDBHelper().deleteDoList(doList.id);
                   _overlayEntry?.remove();
@@ -105,7 +105,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         if (isOverlayShown) {
@@ -139,7 +138,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (userProfile != null) {
                     Future.delayed(Duration.zero, () {
                       _usernameController.text = userProfile.nickname;
-                      _workController.text = userProfile.quote ?? ''; // Assuming quote is an optional field
+                      _workController.text = userProfile.quote ??
+                          ''; // Assuming quote is an optional field
                     });
                     return buildUserProfileSection(userProfile);
                   } else {
@@ -148,59 +148,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0,vertical: 15),
-                child: Divider(color: Colors.white.withOpacity(0.6), height: 1,),
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                child: Divider(
+                  color: Colors.white.withOpacity(0.6),
+                  height: 1,
+                ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0,vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                 child: Row(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget> [
-                        Text('하루 평균계획',style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey), ),
-                        SizedBox(height: 5,),
+                      children: <Widget>[
+                        Text(
+                          '하루 평균계획',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Container(
                           width: 100,
                           height: 50,
                           child: FutureBuilder<double>(
-                            future: FirebaseDBHelper().calculateAverageTotalDoListItems(),
+                            future: FirebaseDBHelper()
+                                .calculateAverageTotalDoListItems(),
                             builder: (context, snapshot) {
-                              print("FutureBuilder state: ${snapshot.connectionState}");
+                              print(
+                                  "FutureBuilder state: ${snapshot.connectionState}");
                               print("Snapshot data: ${snapshot.data}");
                               print("Snapshot error: ${snapshot.error}");
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return CircularProgressIndicator();  // Show loading indicator while waiting
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator(); // Show loading indicator while waiting
                               } else if (snapshot.hasError) {
-                                return Text("Error: ${snapshot.error}");  // Show error if any
+                                return Text(
+                                    "Error: ${snapshot.error}"); // Show error if any
                               } else {
                                 print('fetched');
-                                return Text("${snapshot.data!.toStringAsFixed(0)}개", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),);  // Show the result
+                                return Text(
+                                  "${snapshot.data!.toStringAsFixed(0)}개",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ); // Show the result
                               }
                             },
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(width: 20,),
+                    SizedBox(
+                      width: 20,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:<Widget> [
-                        Text('하루 평균성공', style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey),),
-                        SizedBox(height: 5,),
+                      children: <Widget>[
+                        Text(
+                          '하루 평균성공',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Container(
                           width: 100,
                           height: 50,
                           child: FutureBuilder<double>(
-                            future: FirebaseDBHelper().calculateAverageDoneDoListItems(),
+                            future: FirebaseDBHelper()
+                                .calculateAverageDoneDoListItems(),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return CircularProgressIndicator();  // Show loading indicator while waiting
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator(); // Show loading indicator while waiting
                               } else if (snapshot.hasError) {
-                                return Text("Error: ${snapshot.error}");  // Show error if any
+                                return Text(
+                                    "Error: ${snapshot.error}"); // Show error if any
                               } else {
                                 print("${snapshot.data}개");
-                                return Text("${snapshot.data!.toStringAsFixed(0)}개", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),);  // Show the result
+                                return Text(
+                                  "${snapshot.data!.toStringAsFixed(0)}개",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ); // Show the result
                               }
                             },
                           ),
@@ -210,18 +250,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(24)
-                  ),
+                      borderRadius: BorderRadius.circular(24)),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 10,top: 20),
+                        padding: EdgeInsets.only(left: 10, top: 20),
                         child: Text(
                           '오늘의 다짐',
                           style: TextStyle(
@@ -234,21 +275,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         controller: _workController,
                         decoration: InputDecoration(
                           hintText: '오늘의 다짐을 입력하세요.',
-                          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
+                          hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(24),
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w600),
                         readOnly: !_isEditing,
                       ),
                     ],
-                  )
-              ),
+                  )),
               SizedBox(height: 30),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -268,13 +311,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TotalDoneListScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => TotalDoneListScreen()),
                           );
                         },
                       )
                     ],
-                  )
-              ),
+                  )),
               Container(
                 height: 120, // Set a fixed height for the horizontal list
                 child: FutureBuilder<List<DoList>>(
@@ -286,14 +329,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       // If the list is empty, show the placeholder text
-                      return Center(child: Text('완료된 계획이 없어요', style: TextStyle(color: Colors.white70, fontSize: 16)));
+                      return Center(
+                          child: Text('완료된 계획이 없어요',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 16)));
                     } else {
-                      List<DoList> doneDoLists = snapshot.data!.sublist(0, min(5, snapshot.data!.length));
+                      List<DoList> doneDoLists = snapshot.data!
+                          .sublist(0, min(5, snapshot.data!.length));
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: doneDoLists.length,
                         itemBuilder: (context, index) {
-                          return buildHorizontalListItem(doneDoLists[index],index);
+                          return buildHorizontalListItem(
+                              doneDoLists[index], index);
                         },
                       );
                     }
@@ -302,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SettingsScreen()),
@@ -311,20 +359,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: SECONDARY_COLOR,
-                      borderRadius: BorderRadius.circular(23)
-                  ),
+                      borderRadius: BorderRadius.circular(23)),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25,vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Image.asset('assets/setting.png',width: 30, height: 30,),
-                            Text('      옵션', style: TextStyle(color: Colors.white),)
+                            Image.asset(
+                              'assets/setting.png',
+                              width: 30,
+                              height: 30,
+                            ),
+                            Text(
+                              '      옵션',
+                              style: TextStyle(color: Colors.white),
+                            )
                           ],
                         ),
-                        Icon(Icons.chevron_right,color: Colors.white,)
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),
@@ -337,13 +394,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget buildHorizontalListItem(DoList doList,int index) {
-    String formattedDate = DateFormat('yy년 MM월 dd일').format(DateTime.parse(doList.startDate));
+  Widget buildHorizontalListItem(DoList doList, int index) {
+    String formattedDate =
+        DateFormat('yy년 MM월 dd일').format(DateTime.parse(doList.startDate));
     var key = GlobalKey(debugLabel: 'DoneDoListKey_$index');
 
     return GestureDetector(
       key: key,
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -388,13 +446,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 Text(
                   formattedDate,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600,fontSize: 15),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 8),
                 Text(
                   doList.title,
-                  style: TextStyle(color: Color(0xff767676),fontSize: 15),
+                  style: TextStyle(color: Color(0xff767676), fontSize: 15),
                   textAlign: TextAlign.start,
                 ),
               ],
@@ -404,7 +465,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 
   Widget buildUserProfileSection(UserProfile userProfile) {
     return Row(
@@ -421,13 +481,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Image.asset('assets/${userProfile.profileImg}'),
             ),
-            SizedBox(width: 15,),
+            SizedBox(
+              width: 15,
+            ),
             SizedBox(
               height: 50,
               width: 180,
               child: TextField(
                 controller: _usernameController,
-                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600),
                 readOnly: !_isEditing,
               ),
             ),
@@ -436,16 +501,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Container(
           decoration: BoxDecoration(
               color: _isEditing ? PRIMARY_COLOR : Color(0xff191919),
-              borderRadius: BorderRadius.circular(12)
-          ),
+              borderRadius: BorderRadius.circular(12)),
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: TextButton(
-            child: Text(_isEditing ? '완료': '프로필편집',style: TextStyle(color: Colors.white),),
+            child: Text(
+              _isEditing ? '완료' : '프로필편집',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               if (_isEditing) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   // Call the update method after the build is complete
-                  FirebaseDBHelper().updateUserProfile(_usernameController.text, _workController.text);
+                  FirebaseDBHelper().updateUserProfile(
+                      _usernameController.text, _workController.text);
                 });
               }
               setState(() {
@@ -458,7 +526,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, VoidCallback onPressed) {
+  Widget _buildActionButton(
+      IconData icon, String label, VoidCallback onPressed) {
     return Container(
       height: 50,
       width: 100,
@@ -467,7 +536,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         label: Text(label, style: TextStyle(color: Colors.white, fontSize: 15)),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: PRIMARY_COLOR,
+          backgroundColor: PRIMARY_COLOR,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
